@@ -1,0 +1,28 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'application'
+
+description = 'Orders text Lexicographically'
+
+mainClassName = 'LexicographicSorter.Main'
+
+jar {
+    manifest {
+	attributes(
+	    'Main-Class': 'LexicographicSorter.Main'
+	)
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+}
+
+test {
+    useJUnitPlatform()
+}
