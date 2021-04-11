@@ -2,12 +2,16 @@ package LexicographicSorter.ui;
 
 import LexicographicSorter.Sorter;
 import LexicographicSorter.ui.components.MsgBox;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -17,7 +21,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.BadLocationException;
 
 /**
- * @version 1.0.0
+ * @version 1.0.1
  * @author James
  */
 public class FrmMain extends javax.swing.JFrame implements ClipboardOwner {
@@ -66,7 +70,7 @@ public class FrmMain extends javax.swing.JFrame implements ClipboardOwner {
         spSource = new javax.swing.JScrollPane();
         txtSource = new javax.swing.JTextArea();
         btnCopyToClipboard = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        lnkVersionLbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Lexicographic Sorter");
@@ -99,7 +103,15 @@ public class FrmMain extends javax.swing.JFrame implements ClipboardOwner {
             }
         });
 
-        jLabel1.setText("1.0.0");
+        lnkVersionLbl.setForeground(new java.awt.Color(51, 0, 255));
+        lnkVersionLbl.setText("v1.0.1");
+        lnkVersionLbl.setToolTipText("https://github.com/thoja21/LexicographicSorter/releases");
+        lnkVersionLbl.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lnkVersionLbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lnkVersionLblMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,23 +122,23 @@ public class FrmMain extends javax.swing.JFrame implements ClipboardOwner {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(spResult, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
                     .addComponent(spSource)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblResultLbl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCopyToClipboard))
+                        .addComponent(btnGo))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblSourceToOrderLbl)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblResultLbl)
+                        .addComponent(lnkVersionLbl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnGo)))
+                        .addComponent(btnCopyToClipboard)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(lblSourceToOrderLbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spSource, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -138,8 +150,9 @@ public class FrmMain extends javax.swing.JFrame implements ClipboardOwner {
                 .addComponent(spResult, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCopyToClipboard)
-                    .addComponent(jLabel1)))
+                    .addComponent(lnkVersionLbl)
+                    .addComponent(btnCopyToClipboard))
+                .addGap(0, 11, Short.MAX_VALUE))
         );
 
         pack();
@@ -169,6 +182,20 @@ public class FrmMain extends javax.swing.JFrame implements ClipboardOwner {
 	clipboard.setContents(stringSelection, this);
     }//GEN-LAST:event_btnCopyToClipboardActionPerformed
 
+    private void lnkVersionLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lnkVersionLblMouseClicked
+        // Open web browser to this application's GitHub releases page
+        // (if the host OS supports this).
+        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+            try {
+                desktop.browse(new URL("https://github.com/thoja21/LexicographicSorter/releases").toURI());
+            } catch (IOException | URISyntaxException e) {
+                // Just spit out the stack trace and carry on.
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_lnkVersionLblMouseClicked
+
     private void processSort() throws BadLocationException {
 	List<String> lines = new ArrayList<>();
 	for(int i = 0; i < txtSource.getLineCount(); i ++){
@@ -190,9 +217,9 @@ public class FrmMain extends javax.swing.JFrame implements ClipboardOwner {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCopyToClipboard;
     private javax.swing.JButton btnGo;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblResultLbl;
     private javax.swing.JLabel lblSourceToOrderLbl;
+    private javax.swing.JLabel lnkVersionLbl;
     private javax.swing.JScrollPane spResult;
     private javax.swing.JScrollPane spSource;
     private javax.swing.JTextArea txtResult;
